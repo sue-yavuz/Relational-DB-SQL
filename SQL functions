@@ -1,0 +1,204 @@
+
+
+SELECT GETDATE() AS now;
+
+SELECT DATENAME(WEEKDAY, '2021-11-11') AS sample;
+
+SELECT DATEPART(MINUTE, GETDATE()) AS sample;
+
+
+SELECT MONTH('2021-11-19') AS sample;
+
+SELECT YEAR('2021-11-19') AS sample;
+
+SELECT EOMONTH('2021-02-10') AS EndofFeb
+
+SELECT EOMONTH('2021-02-10') AS EndofFeb
+
+SELECT ISDATE('2021-02-10') AS isdate_
+
+SELECT ISDATE('15/2008/04') AS isdate_
+
+--String Functions
+--*The LEN() function returns the number of characters of a string (excluding spaces end of the text). 
+--The return type of the result is an integer.
+SELECT LEN('this is an example') AS sample
+
+SELECT LEN(NULL) AS col1, LEN(10) AS col2, LEN(10.5) AS col3
+
+--CHARINDEX(substring, string [, start location])
+SELECT CHARINDEX('yourself', 'Reinvent yourself') AS start_position;
+--* yourself ikinci cumlede basliyor ve 10. katrekterde basliyor.
+SELECT CHARINDEX('r', 'Reinvent yourself') AS motto;
+--* r ise case sensityv olmadigi icin ilk R yi bulunca birakti.
+SELECT CHARINDEX('self', 'Reinvent yourself and ourself') AS motto;
+
+SELECT CHARINDEX('self', 'Reinvent yourself and ourself', 15) AS motto;
+--*15. karakterden basla ve self i bul, -->buda 26. karakterde basliyor
+--PATINDEX(%pattern%, input string)
+SELECT PATINDEX('%ern%', 'this is not a pattern') AS sample
+
+--STRING_SPLIT(string, seperator)
+SELECT value from string_split('John,is,a,very,tall,boy.', ',')
+/*
+John
+is
+a
+very
+tall
+boy.
+*/
+
+--SUBSTRING(), LEFT(), RIGHT() Functions
+--* SUBSTRING(string, start_postion, [length])
+SELECT SUBSTRING('Clarusway', 1, 3) AS substr
+-->Cla
+SELECT SUBSTRING('Clarusway', -5, 7) AS substr
+-->C
+SELECT SUBSTRING('Clarusway', -5, 9) AS substr
+-->Cla
+SELECT SUBSTRING('Clarusway', -6, 2) AS substr
+-->bos donuyor
+
+--LEFT(string, number of characters)
+SELECT LEFT('Clarusway', 2) AS leftchars
+-->Cl
+
+--RIGHT(string, number of characters)
+SELECT RIGHT('Clarusway', 2) AS rightchars
+-->ay
+
+-->orn
+SELECT UPPER (SUBSTRING('clarusway.com', 0 , CHARINDEX('.','clarusway.com')));
+--0 dan 10 kadar karakterleri buyuk harf yap
+-->CLARUSWAY
+
+--TRIM(), LTRIM(), RTRIM() Functions
+--TRIM([characters FROM] string)
+SELECT TRIM('  Reinvent Yourself  ') AS new_string;
+/*
+new_string
+-----------------
+Reinvent Yourself
+*/
+SELECT TRIM('@' FROM '@@@clarusway@@@@') AS new_string;
+-->clarusway
+SELECT TRIM('ca' FROM 'cadillac') AS new_string;
+-->dill
+SELECT LTRIM('   cadillac') AS new_string;
+-->cadillac
+SELECT RTRIM('   cadillac   ') AS new_string;
+-->   cadillac
+
+-->orn
+SELECT TRIM(' 789Sun is shining789');
+--789Sun is shining789
+
+--REPLACE() and STR() Functions
+--REPLACE(string expression, string pattern, string replacement)
+/*
+string expression:  The string that you want to perform the replacement.
+string pattern:  The substring to be found in the original string
+string replacement:  The replacement string
+*/
+SELECT REPLACE('REIMVEMT','M','N');
+-->REINVENT
+SELECT lower(REPLACE('REIMVEMT','M','N'));
+-->reinvent
+SELECT REPLACE('I do it my way.','do','did') AS song_name;
+-->I did it my way.
+
+--STR(float expression [, length [, decimal]])
+/*
+float expression:  Is an expression of approximate numeric (float) data type with a decimal point.
+length:  (Optional) Is the total length. This includes decimal point, sign, digits, and spaces. 
+The default is 10.
+decimal:  (Optional) Is the number of places to the right of the decimal point. 
+decimal must be less than or equal to 16.
+*/
+SELECT STR(123.45, 6, 1) AS num_to_str;
+--> 123.5
+SELECT STR(123.42, 6, 1) AS num_to_str;
+-->123.4
+SELECT STR(123.45, 2, 2) AS num_to_str;
+-->** "When the expression exceeds the specified length, 
+--the string returns ** for the specified length."
+SELECT STR(FLOOR (123.45), 8, 3) AS num_to_str;
+--> 123.000
+
+"+" Operator or CONCAT() Function for Concatenating
+SELECT 'Reinvent' + ' yourself' AS concat_string;
+-->Reinvent yourself
+
+SELECT CONCAT('Reinvent' , ' yourself') AS concat_string;
+-->Reinvent yourself
+
+--CAST() and CONVERT() Functions
+/*
+-- CAST Syntax:  
+CAST ( expression AS data_type [ ( length ) ] )  
+  
+-- CONVERT Syntax:  
+CONVERT ( data_type [ ( length ) ] , expression [ , style ] )
+*/
+
+SELECT 'customer' + '_' + CAST(1 AS VARCHAR(1)) AS col
+-->customer_1
+select concat('customer', '_',1)
+-->customer_1
+SELECT CAST(4599.999999 AS numeric(15,1)) AS col
+--* 15, virgulden onceki basamak
+--* 1 ise virgulden sonraki basamak sayisini verir
+-->4600.0
+SELECT GETDATE() AS current_time_, CONVERT(DATE, GETDATE()) AS current_date_
+-->2022-06-17 15:39:35.923	2022-06-17
+SELECT GETDATE() AS current_time_, CONVERT(NVARCHAR, GETDATE(), 11)AS current_date_
+--* nvarchar old icin str yapip tanimlanan sekilde / yapti
+--> 2022-06-17 15:40:41.580	22/06/17
+
+
+--ROUND(numeric_expression , length [ ,function ])
+SELECT ROUND(565.49, -1) AS col;
+-->570.00
+SELECT ROUND(565.49, -2) AS col;
+-->600.00
+SELECT ROUND(123.9994, 3) AS col1, ROUND(123.9995, 3) AS col2;
+-->123.9990  124.0000
+SELECT ROUND(123.4545, 2) col1, ROUND(123.45, -2) AS col2;
+-->123.4500  100.00
+SELECT ROUND(150.75, 0) AS col1, ROUND(150.75, 0, 1) AS col2;
+-->151.00  150.00
+SELECT ROUND(150.75, 0) AS col1, ROUND(150.75, 0, 0) AS col2;
+-->151.00	151.00
+
+
+--ISNULL(check expression, replacement value)
+SELECT ISNULL(NULL, 'Not null yet.') AS col;
+-->Not null yet.
+SELECT ISNULL(1, 2) AS col;
+-->1
+
+--COALESCE(expression [, ...n])
+SELECT COALESCE(NULL, NULL, 'third_value', 'fourth_value');
+-->returns the third value because the third value is the first value that isn't null.
+SELECT COALESCE(Null, Null, 1, 3) AS col
+-->1
+SELECT COALESCE(Null, Null, 'William', Null) AS col
+-->William
+
+--NULLIF
+SELECT NULLIF('2021-01-01', '2021-01-01') AS col
+-->NULL
+SELECT NULLIF(4,4) AS Same, NULLIF(5,7) AS Different;
+-->NULL	5
+SELECT NULLIF(1, 3) AS col
+-->1
+
+--ISNUMERIC(expression)
+SELECT ISNUMERIC ('William') AS col
+-->0
+SELECT ISNUMERIC (123.455) AS col
+-->1
+
+
+SELECT COALESCE(NULLIF(ISNUMERIC(STR(12255.212, 7)), 1), 9999);
